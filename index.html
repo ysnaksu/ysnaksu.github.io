@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        nav {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        nav button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        nav button:hover, nav button.active {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            color: #764ba2;
+            margin: 1.5rem 0 1rem;
+            font-size: 1.8rem;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .profile-img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .edit-section {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="text"], input[type="email"], textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+
+        input[type="text"]:focus, input[type="email"]:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        input[type="file"] {
+            margin-top: 0.5rem;
+        }
+
+        button.save-btn, button.add-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 1rem;
+            transition: transform 0.3s;
+        }
+
+        button.save-btn:hover, button.add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .project-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .contact-info a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+
+        .delete-btn:hover {
+            background: #c82333;
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 1rem;
+            }
+            
+            nav button {
+                font-size: 0.9rem;
+                padding: 0.4rem 0.8rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><button onclick="showTab('home')" class="active">Home</button></li>
+            <li><button onclick="showTab('experience')">Experience</button></li>
+            <li><button onclick="showTab('education')">Education</button></li>
+            <li><button onclick="showTab('projects')">Projects</button></li>
+            <li><button onclick="showTab('contact')">Contact</button></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- HOME TAB -->
+        <div id="home" class="tab-content active">
+            <div class="edit-section">
+                <h2>Edit Home Section</h2>
+                <div class="form-group">
+                    <label>Profile Image:</label>
+                    <input type="file" id="homeImage" accept="image/*" onchange="loadImage('homeImage', 'profileImg')">
+                </div>
+                <div class="form-group">
+                    <label>Name:</label>
+                    <input type="text" id="homeName" placeholder="Your Name">
+                </div>
+                <div class="form-group">
+                    <label>Title:</label>
+                    <input type="text" id="homeTitle" placeholder="Your Professional Title">
+                </div>
+                <div class="form-group">
+                    <label>About Me:</label>
+                    <textarea id="homeAbout" placeholder="Write about yourself..."></textarea>
+                </div>
+                <button class="save-btn" onclick="saveHome()">Save Changes</button>
+            </div>
+
+            <div class="hero">
+                <img id="profileImg" src="https://via.placeholder.com/200" alt="Profile" class="profile-img">
+                <h1 id="displayName">Your Name</h1>
+                <h2 id="displayTitle">Your Title</h2>
+                <p id="displayAbout">Your about me section will appear here.</p>
+            </div>
+        </div>
+
+        <!-- EXPERIENCE TAB -->
+        <div id="experience" class="tab-content">
+            <h1>Experience</h1>
+            <div class="edit-section">
+                <h2>Add New Experience</h2>
+                <div class="form-group">
+                    <label>Job Title:</label>
+                    <input type="text" id="expTitle" placeholder="e.g., Software Developer">
+                </div>
+                <div class="form-group">
+                    <label>Company:</label>
+                    <input type="text" id="expCompany" placeholder="Company Name">
+                </div>
+                <div class="form-group">
+                    <label>Duration:</label>
+                    <input type="text" id="expDuration" placeholder="e.g., 2020 - 2023">
+                </div>
+                <div class="form-group">
+                    <label>Description:</label>
+                    <textarea id="expDesc" placeholder="Describe your responsibilities..."></textarea>
+                </div>
+                <button class="add-btn" onclick="addExperience()">Add Experience</button>
+            </div>
+            <div id="experienceList"></div>
+        </div>
+
+        <!-- EDUCATION TAB -->
+        <div id="education" class="tab-content">
+            <h1>Education</h1>
+            <div class="edit-section">
+                <h2>Add Education</h2>
+                <div class="form-group">
+                    <label>Degree:</label>
+                    <input type="text" id="eduDegree" placeholder="e.g., Bachelor of Science">
+                </div>
+                <div class="form-group">
+                    <label>Institution:</label>
+                    <input type="text" id="eduInstitution" placeholder="University Name">
+                </div>
+                <div class="form-group">
+                    <label>Year:</label>
+                    <input type="text" id="eduYear" placeholder="e.g., 2016 - 2020">
+                </div>
+                <div class="form-group">
+                    <label>Description:</label>
+                    <textarea id="eduDesc" placeholder="Additional details..."></textarea>
+                </div>
+                <button class="add-btn" onclick="addEducation()">Add Education</button>
+            </div>
+            <div id="educationList"></div>
+        </div>
+
+        <!-- PROJECTS TAB -->
+        <div id="projects" class="tab-content">
+            <h1>Projects</h1>
+            <div class="edit-section">
+                <h2>Add New Project</h2>
+                <div class="form-group">
+                    <label>Project Image:</label>
+                    <input type="file" id="projectImage" accept="image/*">
+                </div>
+                <div class="form-group">
+                    <label>Project Title:</label>
+                    <input type="text" id="projectTitle" placeholder="Project Name">
+                </div>
+                <div class="form-group">
+                    <label>Project Description:</label>
+                    <textarea id="projectDesc" placeholder="Describe your project..."></textarea>
+                </div>
+                <button class="add-btn" onclick="addProject()">Add Project</button>
+            </div>
+            <div id="projectsList"></div>
+        </div>
+
+        <!-- CONTACT TAB -->
+        <div id="contact" class="tab-content">
+            <h1>Contact</h1>
+            <div class="edit-section">
+                <h2>Edit Contact Information</h2>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" id="contactEmail" placeholder="your.email@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Phone:</label>
+                    <input type="text" id="contactPhone" placeholder="+1 234 567 8900">
+                </div>
+                <div class="form-group">
+                    <label>LinkedIn:</label>
+                    <input type="text" id="contactLinkedin" placeholder="linkedin.com/in/yourprofile">
+                </div>
+                <div class="form-group">
+                    <label>GitHub:</label>
+                    <input type="text" id="contactGithub" placeholder="github.com/yourusername">
+                </div>
+                <button class="save-btn" onclick="saveContact()">Save Contact Info</button>
+            </div>
+            <div class="contact-info" id="contactDisplay">
+                <p>Your contact information will appear here.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let experiences = [];
+        let education = [];
+        let projects = [];
+
+        function showTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            const buttons = document.querySelectorAll('nav button');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function loadImage(inputId, imgId) {
+            const file = document.getElementById(inputId).files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById(imgId).src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function saveHome() {
+            const name = document.getElementById('homeName').value;
+            const title = document.getElementById('homeTitle').value;
+            const about = document.getElementById('homeAbout').value;
+
+            if (name) document.getElementById('displayName').textContent = name;
+            if (title) document.getElementById('displayTitle').textContent = title;
+            if (about) document.getElementById('displayAbout').textContent = about;
+
+            alert('Home section updated!');
+        }
+
+        function addExperience() {
+            const title = document.getElementById('expTitle').value;
+            const company = document.getElementById('expCompany').value;
+            const duration = document.getElementById('expDuration').value;
+            const desc = document.getElementById('expDesc').value;
+
+            if (!title || !company) {
+                alert('Please fill in at least title and company');
+                return;
+            }
+
+            experiences.push({ title, company, duration, desc });
+            renderExperiences();
+            
+            document.getElementById('expTitle').value = '';
+            document.getElementById('expCompany').value = '';
+            document.getElementById('expDuration').value = '';
+            document.getElementById('expDesc').value = '';
+        }
+
+        function renderExperiences() {
+            const list = document.getElementById('experienceList');
+            list.innerHTML = experiences.map((exp, index) => `
+                <div class="card">
+                    <h2>${exp.title}</h2>
+                    <h3>${exp.company}</h3>
+                    <p><strong>${exp.duration}</strong></p>
+                    <p>${exp.desc}</p>
+                    <button class="delete-btn" onclick="deleteExperience(${index})">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        function deleteExperience(index) {
+            experiences.splice(index, 1);
+            renderExperiences();
+        }
+
+        function addEducation() {
+            const degree = document.getElementById('eduDegree').value;
+            const institution = document.getElementById('eduInstitution').value;
+            const year = document.getElementById('eduYear').value;
+            const desc = document.getElementById('eduDesc').value;
+
+            if (!degree || !institution) {
+                alert('Please fill in at least degree and institution');
+                return;
+            }
+
+            education.push({ degree, institution, year, desc });
+            renderEducation();
+            
+            document.getElementById('eduDegree').value = '';
+            document.getElementById('eduInstitution').value = '';
+            document.getElementById('eduYear').value = '';
+            document.getElementById('eduDesc').value = '';
+        }
+
+        function renderEducation() {
+            const list = document.getElementById('educationList');
+            list.innerHTML = education.map((edu, index) => `
+                <div class="card">
+                    <h2>${edu.degree}</h2>
+                    <h3>${edu.institution}</h3>
+                    <p><strong>${edu.year}</strong></p>
+                    <p>${edu.desc}</p>
+                    <button class="delete-btn" onclick="deleteEducation(${index})">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        function deleteEducation(index) {
+            education.splice(index, 1);
+            renderEducation();
+        }
+
+        function addProject() {
+            const title = document.getElementById('projectTitle').value;
+            const desc = document.getElementById('projectDesc').value;
+            const fileInput = document.getElementById('projectImage');
+            
+            if (!title) {
+                alert('Please add a project title');
+                return;
+            }
+
+            if (fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    projects.push({ title, desc, image: e.target.result });
+                    renderProjects();
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                projects.push({ title, desc, image: 'https://via.placeholder.com/400x200' });
+                renderProjects();
+            }
+
+            document.getElementById('projectTitle').value = '';
+            document.getElementById('projectDesc').value = '';
+            document.getElementById('projectImage').value = '';
+        }
+
+        function renderProjects() {
+            const list = document.getElementById('projectsList');
+            list.innerHTML = projects.map((proj, index) => `
+                <div class="card">
+                    <img src="${proj.image}" alt="${proj.title}" class="project-img">
+                    <h2>${proj.title}</h2>
+                    <p>${proj.desc}</p>
+                    <button class="delete-btn" onclick="deleteProject(${index})">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        function deleteProject(index) {
+            projects.splice(index, 1);
+            renderProjects();
+        }
+
+        function saveContact() {
+            const email = document.getElementById('contactEmail').value;
+            const phone = document.getElementById('contactPhone').value;
+            const linkedin = document.getElementById('contactLinkedin').value;
+            const github = document.getElementById('contactGithub').value;
+
+            let html = '<h2>Get In Touch</h2>';
+            if (email) html += `<p>Email: <a href="mailto:${email}">${email}</a></p>`;
+            if (phone) html += `<p>Phone: ${phone}</p>`;
+            if (linkedin) html += `<p>LinkedIn: <a href="https://${linkedin}" target="_blank">${linkedin}</a></p>`;
+            if (github) html += `<p>GitHub: <a href="https://${github}" target="_blank">${github}</a></p>`;
+
+            document.getElementById('contactDisplay').innerHTML = html;
+            alert('Contact information updated!');
+        }
+    </script>
+</body>
+</html>
