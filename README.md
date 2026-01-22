@@ -1,1 +1,0 @@
-# ysnaksu.github.io
